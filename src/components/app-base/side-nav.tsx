@@ -1,36 +1,26 @@
-import { useState } from 'react';
-import { Navbar, Center, Tooltip, UnstyledButton, createStyles, Stack, rem, ActionIcon } from '@mantine/core';
-import {
-  IconHome2,
-  IconGauge,
-  IconDeviceDesktopAnalytics,
-  IconFingerprint,
-  IconCalendarStats,
-  IconUser,
-  IconSettings,
-  IconLogout,
-  IconSwitchHorizontal,
-} from '@tabler/icons-react';
+import { Center, Navbar, Stack, Tooltip, UnstyledButton, createStyles, rem } from "@mantine/core";
+import { IconCalendarStats, IconDeviceDesktopAnalytics, IconGauge, IconLogout, IconSettings, IconSwitchHorizontal, IconUser } from "@tabler/icons-react";
+import { useState } from "react";
 
 const useStyles = createStyles((theme) => ({
   link: {
     width: rem(50),
     height: rem(50),
     borderRadius: theme.radius.md,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.colors.gray[7],
 
-    '&:hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[0],
+    "&:hover": {
+      backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[0],
     },
   },
 
   active: {
-    '&, &:hover': {
-      backgroundColor: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).background,
-      color: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).color,
+    "&, &:hover": {
+      backgroundColor: theme.fn.variant({ variant: "light", color: theme.primaryColor }).background,
+      color: theme.fn.variant({ variant: "light", color: theme.primaryColor }).color,
     },
   },
 }));
@@ -45,7 +35,7 @@ interface NavbarLinkProps {
 function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
   const { classes, cx } = useStyles();
   return (
-    <Tooltip label={label} position="right" transitionProps={{ duration: 0 }}>
+    <Tooltip label={label} withArrow={true} position="right" transitionProps={{ duration: 0 }}>
       <UnstyledButton onClick={onClick} className={cx(classes.link, { [classes.active]: active })}>
         <Icon size="1.2rem" stroke={1.5} />
       </UnstyledButton>
@@ -54,26 +44,17 @@ function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
 }
 
 const mockdata = [
-  { icon: IconHome2, label: 'Home' },
-  { icon: IconGauge, label: 'Dashboard' },
-  { icon: IconDeviceDesktopAnalytics, label: 'Analytics' },
-  { icon: IconCalendarStats, label: 'Releases' },
-  { icon: IconUser, label: 'Account' },
-  { icon: IconFingerprint, label: 'Security' },
-  { icon: IconSettings, label: 'Settings' },
+  { icon: IconGauge, label: "Notifications" ,link:"/notifications" },
+  { icon: IconDeviceDesktopAnalytics, label: "Analytics" ,link:"/analytics"},
+  { icon: IconCalendarStats, label: "NPS",link:"/" },
+  { icon: IconUser, label: "Users" ,link:"/users"},
+  { icon: IconSettings, label: "Settings",link:"/settings" },
 ];
 
-export function NavbarMinimal() {
-  const [active, setActive] = useState(2);
-
-  const links = mockdata.map((link, index) => (
-    <NavbarLink
-      {...link}
-      key={link.label}
-      active={index === active}
-      onClick={() => setActive(index)}
-    />
-  ));
+export function SideNavbar() {
+  const [active, setActive] = useState("Notifications");
+  
+  const links = mockdata.map((link, index) => <NavbarLink {...link} key={link.label} active={link.label === active} onClick={() => setActive(link.label)} />);
 
   return (
     <Navbar height={"100%"} width={{ base: 80 }} p="md">
@@ -87,7 +68,7 @@ export function NavbarMinimal() {
       </Navbar.Section>
       <Navbar.Section>
         <Stack justify="center" spacing={0}>
-          <NavbarLink icon={IconSwitchHorizontal} label="Change account" />
+          <NavbarLink icon={IconSwitchHorizontal} label="Account" />
           <NavbarLink icon={IconLogout} label="Logout" />
         </Stack>
       </Navbar.Section>
