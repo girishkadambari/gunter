@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { createStyles, Navbar, UnstyledButton, Tooltip, Title, rem ,NavLink} from '@mantine/core';
+import { Navbar, Center, Tooltip, UnstyledButton, createStyles, Stack, rem, ActionIcon } from '@mantine/core';
 import {
   IconHome2,
   IconGauge,
@@ -7,34 +7,15 @@ import {
   IconFingerprint,
   IconCalendarStats,
   IconUser,
-  IconSettings,IconChevronRight,IconActivity
+  IconSettings,
+  IconLogout,
+  IconSwitchHorizontal,
 } from '@tabler/icons-react';
 
-
 const useStyles = createStyles((theme) => ({
-  wrapper: {
-    display: 'flex',
-  },
-
-  aside: {
-    flex: `0 0 ${rem(60)}`,
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    borderRight: `${rem(1)} solid ${
-      theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[3]
-    }`,
-  },
-
-  main: {
-    flex: 1,
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
-  },
-
-  mainLink: {
-    width: rem(44),
-    height: rem(44),
+  link: {
+    width: rem(50),
+    height: rem(50),
     borderRadius: theme.radius.md,
     display: 'flex',
     alignItems: 'center',
@@ -46,152 +27,69 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
-  mainLinkActive: {
+  active: {
     '&, &:hover': {
       backgroundColor: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).background,
       color: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).color,
     },
   },
-
-  title: {
-    boxSizing: 'border-box',
-    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-    marginBottom: theme.spacing.xl,
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
-    padding: theme.spacing.md,
-    paddingTop: rem(18),
-    height: rem(60),
-    borderBottom: `${rem(1)} solid ${
-      theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[3]
-    }`,
-  },
-
-  logo: {
-    boxSizing: 'border-box',
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    height: rem(60),
-    paddingTop: theme.spacing.md,
-    borderBottom: `${rem(1)} solid ${
-      theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[3]
-    }`,
-    marginBottom: theme.spacing.xl,
-  },
-
-  link: {
-    boxSizing: 'border-box',
-    display: 'block',
-    textDecoration: 'none',
-    borderTopRightRadius: theme.radius.md,
-    borderBottomRightRadius: theme.radius.md,
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
-    padding: `0 ${theme.spacing.md}`,
-    fontSize: theme.fontSizes.sm,
-    marginRight: theme.spacing.md,
-    fontWeight: 500,
-    height: rem(44),
-    lineHeight: rem(44),
-
-    '&:hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
-      color: theme.colorScheme === 'dark' ? theme.white : theme.black,
-    },
-  },
-
-  linkActive: {
-    '&, &:hover': {
-      borderLeftColor: theme.fn.variant({ variant: 'filled', color: theme.primaryColor })
-        .background,
-      backgroundColor: theme.fn.variant({ variant: 'filled', color: theme.primaryColor })
-        .background,
-      color: theme.white,
-    },
-  },
 }));
 
-const mainLinksMockdata = [
-  { icon: IconHome2, label: 'Notification' },
-  { icon: IconGauge, label: 'NPS' },
-  { icon: IconDeviceDesktopAnalytics, label: 'Inbox' },
-  { icon: IconCalendarStats, label: 'Feedback' },
-  { icon: IconUser, label: 'Users' },
-  { icon: IconFingerprint, label: 'Analytics' },
-  { icon: IconSettings, label: 'Settings' }, 
-];
-
-
-const datas ={
-
-  Notification :[
-    { label: 'All',link:"/" },
-    { label: 'Published',link:"/" },
-    { label: 'Draft',link:"/" },
-    { label: 'Expried',link:"/" },
-    { label: 'Archived',link:"/" },
-    { label: 'Standalone page',link:"/"},
-  ],
-  NPS :[
-    { label: 'Ram',link:"/" },
-    { label: 'Published',link:"/" },
-    { label: 'Draft',link:"/" },
-    { label: 'Expried',link:"/" },
-    { label: 'Archived',link:"/" },
-    { label: 'Standalone page',link:"/"},
-  ]
+interface NavbarLinkProps {
+  icon: React.FC<any>;
+  label: string;
+  active?: boolean;
+  onClick?(): void;
 }
 
-
-export function SideNav() {
+function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
   const { classes, cx } = useStyles();
-  const [active, setActive] = useState('Notification');
-  const [activeLink, setActiveLink] = useState('All');
-
-  const mainLinks = mainLinksMockdata.map((link) => (
-    <Tooltip
-      label={link.label}
-      position="right"
-      withArrow
-      transitionProps={{ duration: 0 }}
-      key={link.label}
-    >
-      <UnstyledButton
-        onClick={() => setActive(link.label)}
-        className={cx(classes.mainLink, { [classes.mainLinkActive]: link.label === active })}
-      >
-        <link.icon size="1.4rem" stroke={1.5} />
+  return (
+    <Tooltip label={label} position="right" transitionProps={{ duration: 0 }}>
+      <UnstyledButton onClick={onClick} className={cx(classes.link, { [classes.active]: active })}>
+        <Icon size="1.2rem" stroke={1.5} />
       </UnstyledButton>
     </Tooltip>
+  );
+}
+
+const mockdata = [
+  { icon: IconHome2, label: 'Home' },
+  { icon: IconGauge, label: 'Dashboard' },
+  { icon: IconDeviceDesktopAnalytics, label: 'Analytics' },
+  { icon: IconCalendarStats, label: 'Releases' },
+  { icon: IconUser, label: 'Account' },
+  { icon: IconFingerprint, label: 'Security' },
+  { icon: IconSettings, label: 'Settings' },
+];
+
+export function NavbarMinimal() {
+  const [active, setActive] = useState(2);
+
+  const links = mockdata.map((link, index) => (
+    <NavbarLink
+      {...link}
+      key={link.label}
+      active={index === active}
+      onClick={() => setActive(index)}
+    />
   ));
 
-  const items = (data) =>
-    data?.map((item, index) => (
-      <NavLink
-        key={item.label}
-        label={item.label}
-        component='a'
-        onClick={() => setActiveLink(item.label)}
-        className={cx(classes.link, { [classes.linkActive]: activeLink === item.label })}
-      />
-    ))
-   ;
-
-
   return (
-    <Navbar height={"100%"} width={{ sm: 300 }}>
-      <Navbar.Section grow className={classes.wrapper}>
-        <div className={classes.aside}>
-          <div className={classes.logo}>
-            <IconActivity></IconActivity>
-          </div>
-          {mainLinks}
-        </div>
-        <div className={classes.main}>
-          <Title order={4} className={classes.title}>
-            {active}
-          </Title>
-          {items(datas[active])}
-        </div>
+    <Navbar height={"100%"} width={{ base: 80 }} p="md">
+      <Center>
+        <IconUser type="mark" size={30} />
+      </Center>
+      <Navbar.Section grow mt={50}>
+        <Stack justify="center" spacing={0}>
+          {links}
+        </Stack>
+      </Navbar.Section>
+      <Navbar.Section>
+        <Stack justify="center" spacing={0}>
+          <NavbarLink icon={IconSwitchHorizontal} label="Change account" />
+          <NavbarLink icon={IconLogout} label="Logout" />
+        </Stack>
       </Navbar.Section>
     </Navbar>
   );
