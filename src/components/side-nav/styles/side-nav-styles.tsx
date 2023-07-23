@@ -36,4 +36,24 @@ export const sideNavStyles = createStyles((theme) => ({
     flex: 1,
     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
   },
+  sideNavHeaderContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    boxSizing: 'border-box',
+    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+    marginBottom: theme.spacing.xl,
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[0],
+    padding: theme.spacing.md,
+    paddingTop: rem(18),
+    borderBottom: `${rem(1)} solid ${
+      theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[3]
+    }`,
+  },
+  title:{
+    fontWeight: 'bold',
+    fontSize: "18px"
+  },
+  description: {
+    fontSize: "12px",
+  }
 }));

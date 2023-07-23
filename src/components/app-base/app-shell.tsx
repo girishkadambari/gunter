@@ -1,7 +1,7 @@
 import { AppShell,MantineProvider } from '@mantine/core';
 import {SideNavBar} from '../side-nav/side-nav';
 import SideNavContainer from "../side-nav/side-nav-container";
-import {Navigation} from "../navigation";
+import {Navigation} from "../notifications";
 
 export function Shell() {
 
