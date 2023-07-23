@@ -1,19 +1,19 @@
 import { AppShell,MantineProvider } from '@mantine/core';
-import { NavbarMinimal} from './side-nav';
+import {SideNavBar} from '../side-nav/side-nav';
+import SideNavContainer from "../side-nav/side-nav-container";
+import {Navigation} from "../navigation";
 
 export function Shell() {
 
   return (
     <AppShell
-      padding="md"
-      navbar={<NavbarMinimal/>}
+      navbar={<SideNavBar/>}
+      padding={0}
       styles={(theme) => ({
         main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
       })}
     >
-
-      {/* Your application here */}
-
+        <Navigation/>
     </AppShell>
   );
 }
